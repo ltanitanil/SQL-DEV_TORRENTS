@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Files">
+          <Key>
+            <PropertyRef Name="FileId" />
+          </Key>
+          <Property Name="FileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Size" Type="nvarchar(max)" />
+          <Property Name="Torrent_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Forums">
+          <Key>
+            <PropertyRef Name="ForumId" />
+          </Key>
+          <Property Name="ForumId" Type="int" Nullable="false" />
+          <Property Name="ForumValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Torrents">
+          <Key>
+            <PropertyRef Name="Torrent_Id" />
+          </Key>
+          <Property Name="Torrent_Id" Type="int" Nullable="false" />
+          <Property Name="RegistredAt" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="Size" Type="nvarchar(max)" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Torrent_Hash" Type="nvarchar(max)" />
+          <Property Name="Torrent_TrackerId" Type="int" />
+          <Property Name="Forum_Id" Type="int" />
+          <Property Name="Content" Type="nvarchar(max)" />
+          <Property Name="Dir_Name" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK__Torrents__Forum___25869641">
+          <End Role="Forums" Type="Self.Forums" Multiplicity="0..1" />
+          <End Role="Torrents" Type="Self.Torrents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Forums">
+              <PropertyRef Name="ForumId" />
+            </Principal>
+            <Dependent Role="Torrents">
+              <PropertyRef Name="Forum_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Files_dbo_Torrent_Id">
+          <End Role="Torrents" Type="Self.Torrents" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Files" Type="Self.Files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Torrents">
+              <PropertyRef Name="Torrent_Id" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="Torrent_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Forums" EntityType="Self.Forums" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Torrents" EntityType="Self.Torrents" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Torrents__Forum___25869641" Association="Self.FK__Torrents__Forum___25869641">
+            <End Role="Forums" EntitySet="Forums" />
+            <End Role="Torrents" EntitySet="Torrents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Files_dbo_Torrent_Id" Association="Self.FK_dbo_Files_dbo_Torrent_Id">
+            <End Role="Torrents" EntitySet="Torrents" />
+            <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="FileId" />
+          </Key>
+          <Property Name="FileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Size" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Torrent_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Torrent" Relationship="Self.FK_dbo_Files_dbo_Torrent_Id" FromRole="Files" ToRole="Torrents" />
+        </EntityType>
+        <EntityType Name="Forum">
+          <Key>
+            <PropertyRef Name="ForumId" />
+          </Key>
+          <Property Name="ForumId" Type="Int32" Nullable="false" />
+          <Property Name="ForumValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Torrents" Relationship="Self.FK__Torrents__Forum___25869641" FromRole="Forums" ToRole="Torrents" />
+        </EntityType>
+        <EntityType Name="Torrent">
+          <Key>
+            <PropertyRef Name="Torrent_Id" />
+          </Key>
+          <Property Name="Torrent_Id" Type="Int32" Nullable="false" />
+          <Property Name="RegistredAt" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="Size" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Torrent_Hash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Torrent_TrackerId" Type="Int32" />
+          <Property Name="Forum_Id" Type="Int32" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Dir_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Files" Relationship="Self.FK_dbo_Files_dbo_Torrent_Id" FromRole="Torrents" ToRole="Files" />
+          <NavigationProperty Name="Forum" Relationship="Self.FK__Torrents__Forum___25869641" FromRole="Torrents" ToRole="Forums" />
+        </EntityType>
+        <Association Name="FK_dbo_Files_dbo_Torrent_Id">
+          <End Role="Torrents" Type="Self.Torrent" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Files" Type="Self.File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Torrents">
+              <PropertyRef Name="Torrent_Id" />
+            </Principal>
+            <Dependent Role="Files">
+              <PropertyRef Name="Torrent_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Torrents__Forum___25869641">
+          <End Role="Forums" Type="Self.Forum" Multiplicity="0..1" />
+          <End Role="Torrents" Type="Self.Torrent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Forums">
+              <PropertyRef Name="ForumId" />
+            </Principal>
+            <Dependent Role="Torrents">
+              <PropertyRef Name="Forum_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TorrentsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Files" EntityType="Self.File" />
+          <EntitySet Name="Forums" EntityType="Self.Forum" />
+          <EntitySet Name="Torrents" EntityType="Self.Torrent" />
+          <AssociationSet Name="FK_dbo_Files_dbo_Torrent_Id" Association="Self.FK_dbo_Files_dbo_Torrent_Id">
+            <End Role="Torrents" EntitySet="Torrents" />
+            <End Role="Files" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Torrents__Forum___25869641" Association="Self.FK__Torrents__Forum___25869641">
+            <End Role="Forums" EntitySet="Forums" />
+            <End Role="Torrents" EntitySet="Torrents" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="TorrentsEntities">
+          <EntitySetMapping Name="Files">
+            <EntityTypeMapping TypeName="Model.File">
+              <MappingFragment StoreEntitySet="Files">
+                <ScalarProperty Name="FileId" ColumnName="FileId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Torrent_Id" ColumnName="Torrent_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Forums">
+            <EntityTypeMapping TypeName="Model.Forum">
+              <MappingFragment StoreEntitySet="Forums">
+                <ScalarProperty Name="ForumId" ColumnName="ForumId" />
+                <ScalarProperty Name="ForumValue" ColumnName="ForumValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Torrents">
+            <EntityTypeMapping TypeName="Model.Torrent">
+              <MappingFragment StoreEntitySet="Torrents">
+                <ScalarProperty Name="Torrent_Id" ColumnName="Torrent_Id" />
+                <ScalarProperty Name="RegistredAt" ColumnName="RegistredAt" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Torrent_Hash" ColumnName="Torrent_Hash" />
+                <ScalarProperty Name="Torrent_TrackerId" ColumnName="Torrent_TrackerId" />
+                <ScalarProperty Name="Forum_Id" ColumnName="Forum_Id" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Dir_Name" ColumnName="Dir_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
