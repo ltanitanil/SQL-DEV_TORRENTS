@@ -7,9 +7,7 @@ namespace Library.Entities
 {
     public class Forum : IAggregateRoot
     {
-        [Column("ForumId")]
         public int Id { get; set; }
-        [Column("ForumValue")]
         public string Value { get; set; }
 
         //public ICollection<Torrent> Torrents { get; set; }

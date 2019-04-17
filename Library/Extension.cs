@@ -111,7 +111,7 @@ namespace Library
                             }
                             if (xmlReader.Name == "file")
                             {
-                                torrent.Files.Add(new File { Name = xmlReader.GetAttribute("name"), Size = xmlReader.GetAttribute("size"), Id = torrent.Id });
+                                torrent.Files.Add(new File { Name = xmlReader.GetAttribute("name"), Size = xmlReader.GetAttribute("size"),  TorrentId = torrent.Id });
                                 break;
                             }
                             if (xmlReader.Name == "dir")
@@ -129,49 +129,6 @@ namespace Library
                 }
             }
         }
-
-        #region мусор
-        //public void Set(string path)
-        //{
-        //    List<Torrent> torrents = new List<Torrent>();
-        //    List<File> files = new List<File>();
-        //    List<Forum> forums = new List<Forum>();
-        //    int i = 0;
-        //    Console.WriteLine("Start " + DateTime.Now);
-
-        //    foreach (var torrent in GetTorrents(path))
-        //    {
-        //        i++;
-        //        torrents.Add(torrent);
-        //        foreach (var a in torrent.Files)
-        //            files.Add(a);
-        //        if (torrent.Forum != null)
-        //            forums.Add(torrent.Forum);
-
-        //        if (i % 10000 == 0)
-        //        {
-        //            Console.WriteLine("Popadanie " + DateTime.Now);
-        //            UploadToDataBase(files, torrents, forums);
-        //            Console.WriteLine("dobavleno" + i + "     " + DateTime.Now);
-        //            torrents = new List<Torrent>();
-        //            files = new List<File>();
-        //            forums = new List<Forum>();
-        //        }
-        //    }
-        //    UploadToDataBase(files,torrents, forums);
-
-        //}
-
-        //public static void UploadToDataBase(IList<File> files,IList<Torrent> torrents, IList<Forum> forums)
-        //{
-        //    using (Repository context = new Repository())
-        //    {
-        //        context.BigPackageBulkInsert(forums);
-        //        context.BigPackageBulkInsert(torrents, 15000);
-        //        context.BigPackageBulkInsert(files, 1000000);
-        //    }
-        //}
-        #endregion
     }
 }
 
