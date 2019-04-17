@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Library.Entities
 {
-    public class File
+    public class File : IAggregateRoot
     {
         [Column("FileId")]
         public int Id { get; set; }
@@ -16,6 +16,6 @@ namespace Library.Entities
 
         [Column("Torrent_Id")]
         public int TorrentId { get; set; }
-        public Torrent Torrent { get; set; }
+        ////public Torrent Torrent { get; set; }
     }
 }

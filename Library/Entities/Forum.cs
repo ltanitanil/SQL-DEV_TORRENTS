@@ -5,18 +5,18 @@ using System.Text;
 
 namespace Library.Entities
 {
-    public class Forum
+    public class Forum : IAggregateRoot
     {
         [Column("ForumId")]
         public int Id { get; set; }
         [Column("ForumValue")]
         public string Value { get; set; }
 
-        public ICollection<Torrent> Torrents { get; set; }
+        //public ICollection<Torrent> Torrents { get; set; }
 
-        public Forum()
-        {
-            Torrents = new HashSet<Torrent>();
-        }
+        //public Forum()
+        //{
+        //    Torrents = new HashSet<Torrent>();
+        //}
     }
 }
